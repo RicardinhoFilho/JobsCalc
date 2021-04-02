@@ -4,54 +4,10 @@ const routes = express.Router('');
 //não prteciso mais basePath pois "ejs" já lê automaticamente nossa pasta views
 //const basePath = __dirname + "/views";//raiz no nosso arquivo
 //request, response
-const views = __dirname + "/views/";
 
-const Profile = {
+const ProfileController = require('./controllers/ProfileController');
 
-    data: {
-        name: "Ricardo Filho",
-        avatar: "https://github.com/RicardinhoFilho.png",
-        'monthly-budget': "3000",
-        'days-per-week': "5",
-        'hours-per-day': "5",
-        'vacation-per-year': 4,
-        "value-hour": 25
-    },
 
-    controllers: {
-        index(request, response) {
-            return response.render(views + "profile.ejs", { profile: Profile.data })
-        },
-        update(request, response) {
-            //request.body para pegar os dados 
-            const data = request.body;
-
-            //definir quantas semanas tem um ano: 52
-            const weeksPerYear = 52;
-
-            //remover as semanas de férias do ano, para pegar quantas semanas tem em 1 mês
-            const weeksPerMonth = (weeksPerYear - data["vacation-per-year"]) / 12;
-
-            //quantas horas por semana estou trabalhando (horas por dia * dias da semana)
-            weekTotalHours = data["hours-per-day"] * data["days-per-week"];
-
-            //total de horas trabalhadas no mês
-            monthlyTotalHours = weekTotalHours * weeksPerMonth;
-
-            //qual valor da minha hora
-            const valueHour = data["monthly-budget"] / monthlyTotalHours;
-
-            Profile.data = {
-                ...Profile.data,
-                ...request.body,
-                "value-hour": valueHour
-
-            }
-
-            return response.redirect('/profile');
-        }
-    }
-}
 
 const Job = {
     data: [
@@ -88,11 +44,11 @@ const Job = {
                 };
             })
 
-            return response.render(views + "index.ejs", { jobs: uptedJobs })
+            return response.render( "index.ejs", { jobs: uptedJobs })
         },
         create(request, response) {
 
-            return response.render(views + "job.ejs");
+            return response.render( "job.ejs");
 
         },
         save(request, response) {
@@ -126,7 +82,7 @@ const Job = {
 
 
 
-            return response.render(views + "job-edit.ejs", { job });
+            return response.render( "job-edit.ejs", { job });
         },
         update(request, response) {
 
@@ -204,9 +160,8 @@ routes.post("/job", Job.controllers.save);
 routes.get("/job/:id", Job.controllers.show);
 routes.post("/job/:id", Job.controllers.update);
 routes.post("/job/delete/:id", Job.controllers.delete);
-routes.get("/profile", Profile.controllers.index);
-routes.post("/profile", Profile.controllers.update);
+routes.get("/profile", ProfileController.index);
+routes.post("/profile", ProfileController.update);
 
 
 module.exports = routes;
-
