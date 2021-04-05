@@ -5,27 +5,27 @@ let data = [
         "daily-hours": 2,
         "total-hours": 1,
         createdAt: Date.now()
-    }// ,
-    // {
-    //     id: 2,
-    //     name: "One-TwoProject",
-    //     "daily-hours": 3,
-    //     "total-hours": 47,
-    //     createdAt: Date.now()
-    // }
+    },
+    {
+        id: 2,
+        name: "One-TwoProject",
+        "daily-hours": 3,
+        "total-hours": 47,
+        createdAt: Date.now()
+    }
 ]
 
-module.exports ={
+module.exports = {
 
-    get(){
+    get() {
         return data;
     },
-    update(newJob){
+    update(newJob) {
 
         data = newJob;
     },
-    delete(jobId){
-        
+    delete(jobId) {
+
         data = data.filter(job => Number(jobId) != Number(job.id));
     }
 }

@@ -6,7 +6,7 @@ module.exports = {
 
     //ajustes no job
     //calculo d etempo restante
-    
+
     create(request, response) {
 
         return response.render("job.ejs");
@@ -90,11 +90,7 @@ module.exports = {
 
         const jobId = request.params.id;
 
-        console.log('Antes : ' + Job.get())
-        
         Job.delete(jobId);
-
-        console.log('Depois : ' + Job.get())
 
         return response.redirect("/");
 

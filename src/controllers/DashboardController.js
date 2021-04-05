@@ -15,7 +15,7 @@ module.exports = {
 
         const jobs = Job.get();
         const profile = Profile.get();
-        let freeHours = 0;
+        let freeHours = 24;//iniciamos freehours com 24 horas
         
         statusCount.total = jobs.length;
         statusCount.done = 0;
@@ -27,6 +27,8 @@ module.exports = {
 
             statusCount[status]+= 1;//somando o total de projetos finalizados e em progresso
             
+            //se o status é em progresso diminuir a daily-hours por freeHours
+            status == "progress" ? (freeHours -= Number(job['daily-hours'])) : freeHours;
 
             return {
                 ...job,
