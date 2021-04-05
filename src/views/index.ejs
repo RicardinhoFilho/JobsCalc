@@ -33,12 +33,12 @@
         <img id="logo" src="/images/logo.svg" alt="Logo" />
         <span id="notification">
           <img src="/images/alert-octagon.svg" alt="Alerta" />
-          Você tem 2 horas livres no seu dia
+          Você tem <%= freeHours %> horas livres em seu dia! 
         </span>
         <a href="profile" id="avatar-profile">
-          <p>Jakeliny <span>Ver perfil</span></p>
+          <p><%= profile.name %>  <span>Ver perfil</span></p>
           <img
-            src="https://avatars.githubusercontent.com/u/17316392?s=460&u=6912a91a70bc89745a2079fdcdad3bc3ce370f13&v=4" />
+            src="<%= profile.avatar %>" />
         </a>
       </section>
 
@@ -49,15 +49,15 @@
 
         <div class="info">
           <div class="total">
-            <strong>12</strong>
+            <strong><%= statusCount.total %> </strong>
             Projetos ao total
           </div>
           <div class="in-progress">
-            <strong>7</strong>
+            <strong><%= statusCount.progress %> </strong>
             Em andamento
           </div>
           <div class="finished">
-            <strong>4</strong>
+            <strong><%= statusCount.done %> </strong>
             Encerrados
           </div>
         </div>
@@ -78,7 +78,7 @@
       <div class="cards">
         <% jobs.forEach(job=> { %>
 
-          <div class="card <%= job.status %> " data-id="1">
+          <div class="card <%= job.status %> " data-id="<%= job.id %>">
             <div class="id column">
               <%= job.id %>
             </div>
@@ -111,13 +111,15 @@
                 <img src="/images/edit-24.svg" alt="Editar Job" />
               </a>
               <button class="delete button white" title="Excluir Job">
-                <img src="/images/trash-24.svg" alt="Excluir Job" />
+                <img src="/images/trash-24.svg" alt="Excluir Job" id="<%= job.id %>" />
               </button>
             </div>
+
           </div>
           <!-- end card -->
-
           <% });%>
+      </div>
+
 
     </main>
   </div>
@@ -135,7 +137,7 @@
         <button class="button red" type="submit" form="delete-job">Excluir Job</button>
       </footer>
     </div>
-    <form method="post" action="/job/delete/:" id="delete-job"></form>
+    <form method="post" action="/job/delete" id="delete-job"></form>
   </div>
   <!-- end modal-wrapper -->
 </body>

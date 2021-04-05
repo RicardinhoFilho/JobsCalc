@@ -6,26 +6,7 @@ module.exports = {
 
     //ajustes no job
     //calculo d etempo restante
-    index(request, response) {
-
-        const jobs = Job.get();
-        const profile = Profile.get();
-
-        const uptedJobs = jobs.map((job) => {
-
-            const remaining = JobUtils.remainingDays(job);
-            const status = remaining <= 0 ? "done" : "progress";
-
-            return {
-                ...job,
-                remaining,
-                status,
-                budget: JobUtils.calculateBudget(job, profile["value-hour"])
-            };
-        })
-
-        return response.render("index.ejs", { jobs: uptedJobs })
-    },
+    
     create(request, response) {
 
         return response.render("job.ejs");
@@ -108,10 +89,12 @@ module.exports = {
     delete(request, response) {
 
         const jobId = request.params.id;
+
+        console.log('Antes : ' + Job.get())
         
         Job.delete(jobId);
 
-        
+        console.log('Depois : ' + Job.get())
 
         return response.redirect("/");
 

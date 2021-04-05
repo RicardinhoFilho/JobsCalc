@@ -5,14 +5,14 @@ let data = [
         "daily-hours": 2,
         "total-hours": 1,
         createdAt: Date.now()
-    },
-    {
-        id: 2,
-        name: "One-TwoProject",
-        "daily-hours": 3,
-        "total-hours": 47,
-        createdAt: Date.now()
-    }
+    }// ,
+    // {
+    //     id: 2,
+    //     name: "One-TwoProject",
+    //     "daily-hours": 3,
+    //     "total-hours": 47,
+    //     createdAt: Date.now()
+    // }
 ]
 
 module.exports ={
