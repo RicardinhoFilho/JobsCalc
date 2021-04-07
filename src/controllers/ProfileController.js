@@ -1,10 +1,10 @@
 const Profile = require('../model/Profile');
 
 module.exports = {
-    index(request, response) {
-        return response.render("profile.ejs", { profile: Profile.get() })
+    async index(request, response) {
+        return response.render("profile.ejs", { profile: await Profile.Get() })
     },
-    update(request, response) {
+    async update(request, response) {
         //request.body para pegar os dados 
         const data = request.body;
 
@@ -25,7 +25,7 @@ module.exports = {
 
         Profile.update({
 
-            ...Profile.get(),
+            ...await Profile.Get(),
             ...request.body,
             "value-hour": valueHour
 

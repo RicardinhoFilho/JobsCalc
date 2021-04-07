@@ -1,5 +1,4 @@
-let data = [
-    {
+let data = [{
         id: 1,
         name: "Pizzaria Guloso",
         "daily-hours": 2,
@@ -27,5 +26,8 @@ module.exports = {
     delete(jobId) {
 
         data = data.filter(job => Number(jobId) != Number(job.id));
+    },
+    create(newJob) {
+        data.push(newJob);
     }
 }

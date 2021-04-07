@@ -14,12 +14,11 @@ module.exports = {
     },
     save(request, response) {
         //console.log(request.body);//temos que habilitar -> server.use(express.urlencoded({ extend: true })) em server.js
-        const jobs = Job.get();
-
-        const lastId = jobs[jobs.length - 1]?.id || 0;//pega o id do ultimo elemento, se não achar id será 1
+        const jobs = Job.Get();
+        const lastId = jobs[jobs.length - 1].id || 0; //pega o id do ultimo elemento, se não achar id será 1
 
         const job = request.body;
-        jobs.push({
+        Job.create({
             id: lastId + 1,
             name: request.body.name,
             "daily-hours": job["daily-hours"],
@@ -32,8 +31,8 @@ module.exports = {
     },
     show(request, response) {
 
-        const jobs = Job.get();
-        const profile = Profile.get();
+        const jobs = Job.Get();
+        const profile = Profile.Get();
 
         const jobId = request.params.id;
 
@@ -43,7 +42,7 @@ module.exports = {
             return response.send("Job not found");
         }
 
-        job.budget = JobUtils.calculateBudget(job, profile["value-hour"]);
+        job.budGet = JobUtils.calculateBudGet(job, profile["value-hour"]);
 
 
 
@@ -52,7 +51,7 @@ module.exports = {
     },
     update(request, response) {
 
-        const jobs = Job.get();
+        const jobs = Job.Get();
         const jobId = request.params.id;
 
         const job = jobs.find(job => job.id == jobId);
@@ -95,5 +94,5 @@ module.exports = {
         return response.redirect("/");
 
     },
-    calculateBudget: (job, valueHour) => valueHour * job['total-hours']
+    calculateBudGet: (job, valueHour) => valueHour * job['total-hours']
 }

@@ -1,24 +1,30 @@
-const { update } = require("../controllers/ProfileController");
+const Database = require('../db/config');
 
-
-let data = {
-    name: "Ricardo Filho",
-    avatar: "https://github.com/RicardinhoFilho.png",
-    'monthly-budget': "3000",
-    'days-per-week': "5",
-    'hours-per-day': "5",
-    'vacation-per-year': 4,
-    "value-hour": 25
-}
 
 module.exports = {
 
-    get() {
+    async Get() {
 
-        return data;
+        const db = await Database();
+
+        data = await db.get(`SELECT * FROM profile`);
+        //console.log(data2)
+        await db.close();
+
+        return {
+
+            name: data.name,
+            avatar: data.avatar,
+            "monthly-budget": data.monthly_budget,
+            "days_per_week": data.days_per_week,
+            "hours-per-day": data.hours_per_day,
+            "vacation_per_year": data.vacation_per_year,
+            "value-hour": data.value_hour
+
+        };
     },
 
-    update(newData){
+    update(newData) {
         data = newData;
     }
 }
