@@ -13,7 +13,7 @@ let statusCount = {
 module.exports = {
     async index(request, response) {
 
-        const jobs = Job.get();
+        const jobs = await Job.Get();
         const profile = await Profile.Get();
         let freeHours = 24; //iniciamos freehours com 24 horas
 

@@ -12,14 +12,13 @@ module.exports = {
         return response.render("job.ejs");
 
     },
-    save(request, response) {
+    async save(request, response) {
         //console.log(request.body);//temos que habilitar -> server.use(express.urlencoded({ extend: true })) em server.js
-        const jobs = Job.Get();
-        const lastId = jobs[jobs.length - 1].id || 0; //pega o id do ultimo elemento, se não achar id será 1
+        const jobs = await Job.Get();
 
         const job = request.body;
-        Job.create({
-            id: lastId + 1,
+        await Job.create({
+
             name: request.body.name,
             "daily-hours": job["daily-hours"],
             "total-hours": job["total-hours"],
@@ -29,10 +28,10 @@ module.exports = {
         return response.redirect("/")
 
     },
-    show(request, response) {
+    async show(request, response) {
 
-        const jobs = Job.Get();
-        const profile = Profile.Get();
+        const jobs = await Job.Get();
+        const profile = await Profile.Get();
 
         const jobId = request.params.id;
 
@@ -42,57 +41,32 @@ module.exports = {
             return response.send("Job not found");
         }
 
-        job.budGet = JobUtils.calculateBudGet(job, profile["value-hour"]);
-
-
-
+        job.budget = JobUtils.calculateBudget(job, profile["value-hour"]);
 
         return response.render("job-edit.ejs", { job });
     },
-    update(request, response) {
+    async update(request, response) {
 
-        const jobs = Job.Get();
         const jobId = request.params.id;
 
-        const job = jobs.find(job => job.id == jobId);
-
-        if (!job) {
-            return response.send("Job not found")
-        }
-        //console.log(job);
         const updatedJob = {
-            ...job,
             name: request.body.name,
             "total-hours": Number(request.body["total-hours"]),
             "daily-hours": Number(request.body["daily-hours"]),
         }
 
-        // console.log(updatedJob.name);
-        // console.log(updatedJob['total-hours']);
-        // console.log(updatedJob['daily-hours']);
-        const newJobs = jobs.map(job => {
 
-            if (Number(jobId) === Number(job.id)) {
-                job = updatedJob;
-
-
-            }
-            return job;
-
-        })
-
-        Job.update(newJobs);
+        await Job.update(updatedJob, jobId);
 
         return response.redirect("/job/" + jobId);
     },
-    delete(request, response) {
+    async delete(request, response) {
 
         const jobId = request.params.id;
 
-        Job.delete(jobId);
+        await Job.delete(jobId);
 
         return response.redirect("/");
 
-    },
-    calculateBudGet: (job, valueHour) => valueHour * job['total-hours']
+    }
 }
